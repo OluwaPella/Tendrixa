@@ -1,4 +1,4 @@
-Tendrixa
+<h1>Tendrixa</h1>
 
 Discover. Create. Grow.
 
