@@ -1,6 +1,5 @@
 <h1>Tendrixa</h1>
-
-Discover. Create. Grow.
+<h3>Discover. Create. Grow.</h3>
 
 Tendrixa is an AI-powered trend intelligence and content publishing platform that helps creators and businesses turn emerging trends into publishable content.
 
@@ -8,7 +7,7 @@ Built for Buffer Commit 2026.
 
 ---
 
-🚀 What is Tendrixa?
+<h1>🚀 What is Tendrixa?</h1>
 
 The internet moves quickly.
 
@@ -22,7 +21,7 @@ It helps users discover emerging topics, understand their relevance, generate co
 
 ---
 
-🎯 The Problem
+<h1>🎯 The Problem</h1>
 
 Creators and businesses often use multiple tools to:
 
@@ -39,7 +38,7 @@ Tendrixa aims to bring these steps into one experience.
 
 ---
 
-💡 How It Works
+<h1>💡 How It Works</h1>
 
 Discover
    ↓
@@ -80,7 +79,7 @@ Users connect their Buffer account through OAuth and send content to Buffer for 
 
 ---
 
-🧠 AI-Powered Trend Intelligence
+<h1>🧠 AI-Powered Trend Intelligence</h1>
 
 Tendrixa is not designed to be another generic AI caption generator.
 
@@ -96,7 +95,7 @@ Tendrixa starts with:
 
 ---
 
-🔗 Buffer Integration
+<h1>🔗 Buffer Integration</h1>
 
 Buffer is the publishing layer of Tendrixa.
 
@@ -115,7 +114,7 @@ The application is being built to use real Buffer API calls rather than a simula
 
 ---
 
-🏗️ Tech Stack
+<h1>🏗️ Tech Stack</h1>
 
 Frontend
 
@@ -143,15 +142,15 @@ Publishing
 
 ---
 
-📁 Project Structure
+<h1>📁 Project Structure</h1>
 ---
 
-⚙️ Local Development
+<h1>⚙️ Local Development</h1>
 
 
 ---
 
-🏆 Buffer Commit 2026
+<h1>🏆 Buffer Commit 2026</h1>
 
 Tendrixa is being developed as part of Buffer Commit 2026.
 
@@ -161,8 +160,8 @@ The objective is to build a functional application that demonstrates a real-worl
 
 ---
 
-👨🏽‍💻 Building in Public
-
+<h1>👨🏽‍💻 Building in Public
+</h1>
 I'm documenting the development of Tendrixa throughout Buffer Commit 2026.
 
 I'll be sharing:
@@ -179,6 +178,6 @@ This repository contains the code and implementation behind the project.
 
 ---
 
-📄 License
+<h1>📄 License</h1>
 
 This project is currently being developed for Buffer Commit 2026.
