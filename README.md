@@ -175,6 +175,7 @@ I'll be sharing:
 - Lessons learned
 
 This repository contains the code and implementation behind the project.
+#blog:https://medium.com/@oolaosebikan350/32dd23216f43
 
 ---
 
