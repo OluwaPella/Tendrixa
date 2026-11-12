@@ -1,8 +1,0 @@
-# Environment variables / secrets
-.env
-.env.*
-!.env.example
-riables / secrets
-.env
-.env.*
-
