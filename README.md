@@ -1,184 +1,154 @@
-<h1>Tendrixa</h1>
-<h3>Discover. Create. Grow.</h3>
+# Tendrixa
 
-Tendrixa is an AI-powered trend intelligence and content publishing platform that helps creators and businesses turn emerging trends into publishable content.
+**Discover · Create · Grow**
 
-Built for Buffer Commit 2026.
+Tendrixa is an AI-powered trend intelligence and content publishing platform.
 
----
+It helps creators and businesses:
 
-<h1>🚀 What is Tendrixa?</h1>
+1. Discover emerging trends  
+2. Understand why a trend matters  
+3. Score relevance / opportunity  
+4. Generate platform-aware content  
+5. Review and approve drafts  
+6. Send approved content to **Buffer** for publishing or scheduling  
 
-The internet moves quickly.
-
-New conversations, topics, and trends emerge every day. But discovering a trend is only the beginning.
-
-Tendrixa connects the workflow from:
-
-Trend → Insight → Content → Buffer → Published
-
-It helps users discover emerging topics, understand their relevance, generate content ideas, and send finished content to Buffer for scheduling or publishing.
+Tendrixa is **not** a Buffer replacement. It is the intelligence and content-creation layer that feeds into Buffer.
 
 ---
 
-<h1>🎯 The Problem</h1>
+## Problem
 
-Creators and businesses often use multiple tools to:
+Creators and teams waste time guessing what to post. Trends move fast; turning signal into on-brand content for multiple platforms is slow. Tendrixa closes that gap: discover → analyse → generate → review → publish via Buffer.
 
-- Discover trending topics
-- Research emerging conversations
-- Decide whether a trend is relevant
-- Generate content ideas
-- Adapt content for different platforms
-- Schedule and publish content
+## Features
 
-This creates a fragmented workflow.
+- **Trend discovery** with search, filters, categories and momentum signals  
+- **Trend detail & internal opportunity scoring**  
+- **AI Content Studio** (platform + content-type aware drafts)  
+- **Content library** (draft / approved / scheduled / published)  
+- **Buffer integration architecture** (OAuth + publish/schedule placeholders ready for real credentials)  
+- Polished SaaS UI aligned with the Tendrixa green identity  
 
-Tendrixa aims to bring these steps into one experience.
+## Tech stack
 
----
+| Layer    | Stack                                      |
+|----------|--------------------------------------------|
+| Frontend | React, TypeScript, Vite, Tailwind CSS, React Router, Lucide |
+| Backend  | Python, FastAPI, SQLModel, Alembic, HTTPX, Pydantic |
+| Data     | SQLite (local) / PostgreSQL (production)   |
+| Publish  | Buffer (OAuth + API — placeholders until developer app is configured) |
 
-<h1>💡 How It Works</h1>
+## Architecture (high level)
 
-Discover
-   ↓
-Analyse
-   ↓
-Create
-   ↓
-Review
-   ↓
-Connect Buffer
-   ↓
-Schedule / Publish
+```
+Trend Sources → Trend Discovery → Trend Analysis → Opportunity Scoring
+        → AI Content Engine → Human Approval → Buffer OAuth → Buffer API
+        → Scheduled / Published
+```
 
-1. Discover
+See [ARCHITECTURE.md](./ARCHITECTURE.md) for more detail.
 
-Tendrixa surfaces emerging trends and topics.
+## Project structure
 
-2. Analyse
+```
+tendrixa/
+├── frontend/          # Vite + React app
+├── backend/           # FastAPI app
+│   ├── app/
+│   │   ├── api/
+│   │   ├── integrations/buffer/   # OAuth + client + service (TODOs marked)
+│   │   ├── models/
+│   │   ├── schemas/
+│   │   ├── services/
+│   │   └── ...
+│   ├── requirements.txt
+│   └── .env.example
+├── ARCHITECTURE.md
+└── README.md
+```
 
-AI analyses a trend and helps identify:
+## Local setup
 
-- Why it is gaining attention
-- Its potential relevance
-- Possible audiences
-- Content opportunities
+### Prerequisites
 
-3. Create
+- Node.js 20+
+- Python 3.11+
+- (Optional) PostgreSQL
 
-Users can turn a trend into content ideas and platform-specific posts.
+### Backend
 
-4. Review
+```bash
+cd backend
+python -m venv .venv
+source .venv/bin/activate   # Windows: .venv\Scripts\activate
+pip install -r requirements.txt
+cp .env.example .env        # edit as needed
+uvicorn app.main:app --reload --port 8000
+```
 
-Users can edit and refine generated content before publishing.
+Health: `GET http://localhost:8000/api/v1/health`
 
-5. Publish
+### Frontend
 
-Users connect their Buffer account through OAuth and send content to Buffer for scheduling or publishing.
+```bash
+cd frontend
+npm install
+npm run dev
+```
 
----
+Open http://localhost:5173  
 
-<h1>🧠 AI-Powered Trend Intelligence</h1>
+The Vite dev server proxies `/api` to the backend.
 
-Tendrixa is not designed to be another generic AI caption generator.
+### Environment variables
 
-The goal is to connect trend intelligence with content publishing.
+See `backend/.env.example`. Important keys:
 
-Instead of asking:
+| Variable | Purpose |
+|----------|---------|
+| `DATABASE_URL` | SQLite or Postgres connection string |
+| `SECRET_KEY` | App secret |
+| `AI_API_KEY` | Optional; template generator used when empty |
+| `BUFFER_CLIENT_ID` | From Buffer developer app |
+| `BUFFER_CLIENT_SECRET` | From Buffer developer app |
+| `BUFFER_REDIRECT_URI` | Must match Buffer app settings (default local callback) |
+| `BUFFER_API_BASE_URL` | Official API base (confirm against current Buffer docs) |
 
-«"What should I post?"»
+**Never commit a real `.env` file.**
 
-Tendrixa starts with:
+## Buffer configuration
 
-«"What is happening right now, and what can I create from it?"»
+1. Create a Buffer developer application.  
+2. Set the redirect URI to match `BUFFER_REDIRECT_URI`.  
+3. Put `BUFFER_CLIENT_ID` and `BUFFER_CLIENT_SECRET` in `.env`.  
+4. Replace the `TODO(BUFFER)` sections in:
 
----
+   - `backend/app/integrations/buffer/oauth.py`  
+   - `backend/app/integrations/buffer/client.py`  
+   - `backend/app/integrations/buffer/service.py`  
+   - `backend/app/config.py` (confirm base URL if needed)
 
-<h1>🔗 Buffer Integration</h1>
+Until those are filled, the UI will clearly say that Buffer is not connected and will not fake a successful connection or publish.
 
-Buffer is the publishing layer of Tendrixa.
+## Development data
 
-Through the Buffer API, users can connect their Buffer account and move content from Tendrixa into their existing publishing workflow.
+Trend data is served by `MockTrendProvider` (`backend/app/services/trend_provider.py`).  
+Swap to `RealTrendProvider` when a real trend source is available. The rest of the app depends on the `TrendProvider` interface.
 
-Tendrixa
-   │
-   │ Buffer OAuth
-   ↓
-Buffer API
-   │
-   ↓
-Schedule / Publish
+## Scripts
 
-The application is being built to use real Buffer API calls rather than a simulated publishing workflow.
+| Command | Where | What |
+|---------|--------|------|
+| `npm run dev` | frontend | Dev server |
+| `npm run build` | frontend | Production build |
+| `uvicorn app.main:app --reload` | backend | API server |
 
----
+## Safety / GitHub
 
-<h1>🏗️ Tech Stack</h1>
+This repository is prepared for you to copy into your existing GitHub repo.  
+No commits, pushes, or remote configuration are performed by the scaffolding process.
 
-Frontend
+## License
 
-- React
-- TypeScript
-
-Backend
-
-- Python
-- FastAPI
-
-Database
-
-- PostgreSQL
-
-AI
-
-- AI-powered trend analysis
-- AI-assisted content generation
-
-Publishing
-
-- Buffer API
-- Buffer OAuth
-
----
-
-<h1>📁 Project Structure</h1>
----
-
-<h1>⚙️ Local Development</h1>
-
-
----
-
-<h1>🏆 Buffer Commit 2026</h1>
-
-Tendrixa is being developed as part of Buffer Commit 2026.
-
-The project explores how AI and trend intelligence can improve the journey from discovering emerging conversations to creating and publishing useful content.
-
-The objective is to build a functional application that demonstrates a real-world integration with Buffer.
-
----
-
-<h1>👨🏽‍💻 Building in Public
-</h1>
-I'm documenting the development of Tendrixa throughout Buffer Commit 2026.
-
-I'll be sharing:
-
-- Product decisions
-- UI/UX iterations
-- Technical implementation
-- Buffer integration
-- Challenges
-- Experiments
-- Lessons learned
-
-This repository contains the code and implementation behind the project.
-<h3>blog:https://medium.com/@oolaosebikan350/32dd23216f43</h3>
-
----
-
-<h1>📄 License</h1>
-
-This project is currently being developed for Buffer Commit 2026.
+Proprietary / competition submission — Buffer Commit 2026.
